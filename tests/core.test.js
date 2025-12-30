@@ -1,5 +1,5 @@
 import { it, expect, describe } from "vitest";
-import { getCoupons, validateUserInput } from "../src/core";
+import { getCoupons, isValidUsername, validateUserInput } from "../src/core";
 
 describe("getCoupons", () => {
   it("should have more than one elements", () => {
@@ -63,5 +63,25 @@ describe("validUserInput", () => {
   it("should return verification successful if both args are valid", () => {
     const result = validateUserInput("John", 20);
     expect(result).toMatch(/successful/i);
+  });
+}); // End 2. Test Suit
+
+describe("isValidUsername", () => {
+  it("should return true if the username length is more than or equal 5", () => {
+    expect(isValidUsername("A".repeat(6))).toBe(true);
+    expect(isValidUsername("A".repeat(5))).toBe(true);
+  });
+
+  it("should return true if the username length is less than or equal 15", () => {
+    expect(isValidUsername("A".repeat(6))).toBe(true);
+    expect(isValidUsername("A".repeat(15))).toBe(true);
+  });
+
+  it("should return false if the username length is less than 5", () => {
+    expect(isValidUsername("A".repeat(3))).toBe(false);
+  });
+
+  it("should return false if the username length is more than 15", () => {
+    expect(isValidUsername("A".repeat(20))).toBe(false);
   });
 });
