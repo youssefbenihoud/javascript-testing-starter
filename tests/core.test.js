@@ -1,5 +1,11 @@
 import { it, expect, describe } from "vitest";
-import { getCoupons, isValidUsername, validateUserInput } from "../src/core";
+import {
+  canDrive,
+  getCoupons,
+  isPriceInRange,
+  isValidUsername,
+  validateUserInput,
+} from "../src/core";
 
 describe("getCoupons", () => {
   it("should have more than one elements", () => {
@@ -84,4 +90,35 @@ describe("isValidUsername", () => {
   it("should return false if the username length is more than 15", () => {
     expect(isValidUsername("A".repeat(20))).toBe(false);
   });
-});
+}); // End 3. Test Suite
+
+describe("canDrive", () => {
+  const validCountryCodes = ["US", "UK"];
+  it("should return Invalid Countrycode if given invalid Countrycode", () => {
+    expect(canDrive(18, "DE")).toMatch(/invalid/i);
+  });
+
+  it("should return false if given an invalid age in the given valid countrycode", () => {
+    validCountryCodes.forEach((cc) => {
+      expect(canDrive(10, cc)).toBe(false);
+    });
+  });
+
+  it("should return true if given a valid age in the given valid countrycode", () => {
+    validCountryCodes.forEach((cc) => {
+      expect(canDrive(17, cc)).toBe(true);
+    });
+  });
+}); // END 4. Test Suite
+
+describe("isPriceInRange", () => {
+  it.each([
+    { price: 10, min: 0, max: 100, result: true },
+    { price: 0, min: 0, max: 100, result: true },
+  ])(
+    "should return $result if $price in range $min and $max",
+    ({ min, max, price, result }) => {
+      expect(isPriceInRange(price, min, max)).toBe(result);
+    }
+  );
+}); // END 5. Test Suite
